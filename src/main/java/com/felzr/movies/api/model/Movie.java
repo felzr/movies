@@ -8,10 +8,10 @@ import javax.persistence.*;
 @Table
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Integer id;
     @NotNull
-    private Integer year;
+    private Integer launchYear;
     @NotNull
     private String title;
     @NotNull
@@ -20,19 +20,13 @@ public class Movie {
     private String produces;
     private String winner;
 
-    public Movie(Integer id, Integer year, String title, String studios, String produces, String winner) {
-        this.id = id;
-        this.year = year;
+    public Movie(Integer launchYear, String title, String studios, String produces, String winner) {
+        this.launchYear = launchYear;
         this.title = title;
         this.studios = studios;
         this.produces = produces;
         this.winner = winner;
     }
-
-    public Movie() {
-
-    }
-
 
     public Integer getId() {
         return id;
@@ -42,12 +36,13 @@ public class Movie {
         this.id = id;
     }
 
-    public Integer getYear() {
-        return year;
+
+    public Integer getLaunchYear() {
+        return launchYear;
     }
 
-    public void setYear(Integer year) {
-        this.year = year;
+    public void setLaunchYear(Integer year) {
+        this.launchYear = year;
     }
 
     public String getTitle() {
