@@ -1,13 +1,40 @@
 package com.felzr.movies.api.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class MovieDto {
+
+
+    @JsonProperty("id")
     private Integer id;
+    @JsonProperty("year")
     private Integer year;
+    @JsonProperty("title")
     private String title;
+    @JsonProperty("studios")
     private String studios;
-    private String produces;
+    @JsonProperty("producer")
+    private String producer;
+    @JsonProperty("winner")
     private String winner;
+
+    public MovieDto(Integer id, Integer year, String title, String studios, String producer, String winner) {
+        this.id = id;
+        this.year = year;
+        this.title = title;
+        this.studios = studios;
+        this.producer = producer;
+        this.winner = winner;
+    }
+
+    public MovieDto(Integer year, String title, String studios, String producer, String winner) {
+        this.year = year;
+        this.title = title;
+        this.studios = studios;
+        this.producer = producer;
+        this.winner = winner;
+    }
 
     public Integer getId() {
         return id;
@@ -41,12 +68,12 @@ public class MovieDto {
         this.studios = studios;
     }
 
-    public String getProduces() {
-        return produces;
+    public String getProducer() {
+        return producer;
     }
 
-    public void setProduces(String produces) {
-        this.produces = produces;
+    public void setProducer(String producer) {
+        this.producer = producer;
     }
 
     public String getWinner() {
@@ -56,5 +83,6 @@ public class MovieDto {
     public void setWinner(String winner) {
         this.winner = winner;
     }
+
 
 }

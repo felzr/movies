@@ -17,15 +17,27 @@ public class Movie {
     @NotNull
     private String studios;
     @NotNull
-    private String produces;
+    private String producer;
     private String winner;
 
-    public Movie(Integer launchYear, String title, String studios, String produces, String winner) {
+    public Movie(Integer id, Integer launchYear, String title, String studios, String producer, String winner) {
+        this.id = id;
         this.launchYear = launchYear;
         this.title = title;
         this.studios = studios;
-        this.produces = produces;
+        this.producer = producer;
         this.winner = winner;
+    }
+    public Movie(Integer launchYear, String title, String studios, String producer, String winner) {
+        this.launchYear = launchYear;
+        this.title = title;
+        this.studios = studios;
+        this.producer = producer;
+        this.winner = winner;
+    }
+
+    public Movie() {
+
     }
 
     public Integer getId() {
@@ -61,12 +73,12 @@ public class Movie {
         this.studios = studios;
     }
 
-    public String getProduces() {
-        return produces;
+    public String getProducer() {
+        return producer;
     }
 
-    public void setProduces(String produces) {
-        this.produces = produces;
+    public void setProducer(String produces) {
+        this.producer = produces;
     }
 
     public String getWinner() {
