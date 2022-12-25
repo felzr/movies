@@ -3,23 +3,25 @@ package com.felzr.movies.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 public class MovieDto {
 
 
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("year")
-    private Integer year;
+    private String year;
     @JsonProperty("title")
     private String title;
     @JsonProperty("studios")
     private String studios;
     @JsonProperty("producer")
-    private String producer;
+    private List<ProducerDto> producer;
     @JsonProperty("winner")
-    private String winner;
+    private boolean winner;
 
-    public MovieDto(Integer id, Integer year, String title, String studios, String producer, String winner) {
+    public MovieDto(Integer id, String year, String title, String studios, List<ProducerDto> producer, boolean winner) {
         this.id = id;
         this.year = year;
         this.title = title;
@@ -28,7 +30,7 @@ public class MovieDto {
         this.winner = winner;
     }
 
-    public MovieDto(Integer year, String title, String studios, String producer, String winner) {
+    public MovieDto(String year, String title, String studios, List<ProducerDto> producer, boolean winner) {
         this.year = year;
         this.title = title;
         this.studios = studios;
@@ -44,11 +46,11 @@ public class MovieDto {
         this.id = id;
     }
 
-    public Integer getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(Integer year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
@@ -68,20 +70,20 @@ public class MovieDto {
         this.studios = studios;
     }
 
-    public String getProducer() {
-        return producer;
-    }
-
-    public void setProducer(String producer) {
-        this.producer = producer;
-    }
-
-    public String getWinner() {
+    public boolean getWinner() {
         return winner;
     }
 
-    public void setWinner(String winner) {
+    public void setWinner(boolean winner) {
         this.winner = winner;
+    }
+
+    public List<ProducerDto> getProducer() {
+        return producer;
+    }
+
+    public void setProducer(List<ProducerDto> producer) {
+        this.producer = producer;
     }
 
 

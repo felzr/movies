@@ -3,20 +3,20 @@ package com.felzr.movies.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({"year", "title", "studios", "producers", "winner"})
+@JsonPropertyOrder({"year", "title", "studios", "producer", "winner"})
 public class MovieCsv {
 
-    private Integer year;
+    private String year;
     private String title;
     private String studios;
     private String producer;
     private String winner;
 
-    public Integer getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(Integer year) {
+    public void setYear(String year) {
         this.year = year;
     }
 

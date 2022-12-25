@@ -3,42 +3,26 @@ package com.felzr.movies.api.model;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table
 public class Movie {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotNull
-    private Integer launchYear;
+    private Date yearWinner;
     @NotNull
     private String title;
     @NotNull
     private String studios;
     @NotNull
-    private String producer;
-    private String winner;
-
-    public Movie(Integer id, Integer launchYear, String title, String studios, String producer, String winner) {
-        this.id = id;
-        this.launchYear = launchYear;
-        this.title = title;
-        this.studios = studios;
-        this.producer = producer;
-        this.winner = winner;
-    }
-    public Movie(Integer launchYear, String title, String studios, String producer, String winner) {
-        this.launchYear = launchYear;
-        this.title = title;
-        this.studios = studios;
-        this.producer = producer;
-        this.winner = winner;
-    }
-
-    public Movie() {
-
-    }
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "movie_id")
+    private List<Producer> producers;
+    private boolean winner;
 
     public Integer getId() {
         return id;
@@ -48,13 +32,12 @@ public class Movie {
         this.id = id;
     }
 
-
-    public Integer getLaunchYear() {
-        return launchYear;
+    public Date getYearWinner() {
+        return yearWinner;
     }
 
-    public void setLaunchYear(Integer year) {
-        this.launchYear = year;
+    public void setYearWinner(Date launchYear) {
+        this.yearWinner = launchYear;
     }
 
     public String getTitle() {
@@ -73,20 +56,43 @@ public class Movie {
         this.studios = studios;
     }
 
-    public String getProducer() {
-        return producer;
+    public List<Producer> getProducers() {
+        return producers;
     }
 
-    public void setProducer(String produces) {
-        this.producer = produces;
+    public void setProducers(List<Producer> producers) {
+        this.producers = producers;
     }
 
-    public String getWinner() {
+    public boolean getWinner() {
         return winner;
     }
 
-    public void setWinner(String winner) {
+    public void setWinner(boolean winner) {
         this.winner = winner;
     }
+
+
+    public Movie(Integer id, Date yearWinner, String title, String studios, List<Producer> producers, boolean winner) {
+        this.id = id;
+        this.yearWinner = yearWinner;
+        this.title = title;
+        this.studios = studios;
+        this.producers = producers;
+        this.winner = winner;
+    }
+
+    public Movie(Date yearWinner, String title, String studios, List<Producer> producers, boolean winner) {
+        this.yearWinner = yearWinner;
+        this.title = title;
+        this.studios = studios;
+        this.producers = producers;
+        this.winner = winner;
+    }
+
+
+    public Movie() {
+    }
+
 
 }

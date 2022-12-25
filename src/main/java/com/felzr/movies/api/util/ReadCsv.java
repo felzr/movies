@@ -8,14 +8,13 @@ import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ReadCsv {
     private static final String CSV_PATH = "classpath:movielist.csv";
 
     public List<MovieCsv> convertCsvToDto() throws IOException {
-        List<MovieCsv> list = new ArrayList<>();
+        List<MovieCsv> list;
         File csvFile = ResourceUtils.getFile(CSV_PATH);
         CsvMapper csvMapper = new CsvMapper();
 
