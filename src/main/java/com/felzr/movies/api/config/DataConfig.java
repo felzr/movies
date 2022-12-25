@@ -12,6 +12,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.schema.property.BeanPropertyDefinitions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,24 +41,24 @@ public class DataConfig {
 
     List<Movie> convertCsvDtoEntity(List<MovieCsv> csvList) {
         List<Movie> movieList = new ArrayList<>();
-        for (MovieCsv movieCsv : csvList) {
+        csvList.forEach(movieCsv -> {
             Movie movie = createMoveiFromCsvObject(movieCsv);
             List<String> prod = separateProducers(movieCsv.getProducer());
             movie.setProducers(convertProducer(movie, prod, movieCsv));
             movieList.add(movie);
-        }
+        });
         return movieList;
     }
 
-    private List<Producer> convertProducer(Movie movie, List<String> prod, MovieCsv movieCsv) {
+    private List<Producer> convertProducer(Movie movie, List<String> producersNames, MovieCsv movieCsv) {
         List<Producer> producers = new ArrayList<>();
-        for (String name : prod) {
+        producersNames.forEach(name -> {
             Producer producer = new Producer(name.trim());
             if (movie.getWinner()) {
                 producer.setYearWinner(Integer.valueOf(movieCsv.getYear()));
             }
             producers.add(producer);
-        }
+        });
         return producers;
     }
 
