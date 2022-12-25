@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Configuration
 public class DataConfig {
@@ -40,29 +41,39 @@ public class DataConfig {
     List<Movie> convertCsvDtoEntity(List<MovieCsv> csvList) {
         List<Movie> movieList = new ArrayList<>();
         for (MovieCsv movieCsv : csvList) {
-            Movie movie = new Movie(DateUtils.getDatefromYear(movieCsv.getYear()), movieCsv.getTitle(), movieCsv.getStudios(), null, false);
-            if (movieCsv.getWinner().equals(Winner.YES.getText())) {
-                movie.setWinner(true);
-            }
+            Movie movie = createMoveiFromCsvObject(movieCsv);
             List<String> prod = separateProducers(movieCsv.getProducer());
-            List<Producer> producers = new ArrayList<>();
-            for (String name : prod) {
-                if (!name.isEmpty()) {
-                    Producer producer = new Producer(name.trim());
-                    producers.add(producer);
-                    if (movie.getWinner()) {
-                        producer.setYearWinner(Integer.valueOf(movieCsv.getYear()));
-                    }
-                }
-
-            }
-            movie.setProducers(producers);
+            movie.setProducers(convertProducer(movie, prod, movieCsv));
             movieList.add(movie);
         }
         return movieList;
     }
 
+    private List<Producer> convertProducer(Movie movie, List<String> prod, MovieCsv movieCsv) {
+        List<Producer> producers = new ArrayList<>();
+        for (String name : prod) {
+            Producer producer = new Producer(name.trim());
+            if (movie.getWinner()) {
+                producer.setYearWinner(Integer.valueOf(movieCsv.getYear()));
+            }
+            producers.add(producer);
+        }
+        return producers;
+    }
+
+    private Movie createMoveiFromCsvObject(MovieCsv movieCsv) {
+        Movie movie = new Movie(DateUtils.getDatefromYear(movieCsv.getYear()), movieCsv.getTitle(), movieCsv.getStudios(), null, false);
+        if (movieCsv.getWinner().equals(Winner.YES.getText())) {
+            movie.setWinner(true);
+        }
+        return movie;
+    }
+
     private List<String> separateProducers(String producer) {
-        return Arrays.asList(producer.split((",|\\ and ")));
+        List<String> listProducer = Arrays.asList(producer.split((",|\\ and ")));
+        listProducer = listProducer.stream()
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toList());
+        return listProducer;
     }
 }
