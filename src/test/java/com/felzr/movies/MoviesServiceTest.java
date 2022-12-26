@@ -1,7 +1,11 @@
 package com.felzr.movies;
 
 import com.felzr.movies.api.config.DataConfig;
+import com.felzr.movies.api.dto.AwardsIntervalDto;
 import com.felzr.movies.api.dto.MovieDto;
+import com.felzr.movies.api.model.WinningProducerView;
+import com.felzr.movies.api.repository.WinningProducerViewRepository;
+import com.felzr.movies.api.service.AwardsService;
 import com.felzr.movies.api.service.MovieService;
 import com.felzr.movies.api.util.ReadCsv;
 import org.junit.Before;
@@ -21,23 +25,41 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MoviesServiceTest {
     @Autowired
     MovieService movieService;
+    @Autowired
+    AwardsService awardsService;
+    @Autowired
+    WinningProducerViewRepository winnerViewRepository;
 
     ReadCsv readCsv;
 
-    private static String firtsMovie= "Can't Stop the Music";
+    private static String FIRST_MOVIE = "Can't Stop the Music";
+    private static String MOCK_PRDUCER = "Matthew Vaughn";
+    private static Integer YEAR_WINNER_MOCK = 2028;
+
     @Before
     public void setup() {
         DataConfig dataConfig = new DataConfig();
         dataConfig.sendDatabase();
         readCsv = new ReadCsv();
+        createMockWinnerAward();
 
+    }
+
+    private void createMockWinnerAward() {
+        winnerViewRepository.save(new WinningProducerView(MOCK_PRDUCER, YEAR_WINNER_MOCK));
     }
 
     @Test
     public void validate_if_data_form_inserted() throws IOException {
         List<MovieDto> movieList = movieService.getAllMoviesDto();
         assertEquals(readCsv.getCountLinesCsv(), movieList.size());
-        assertEquals(firtsMovie, movieList.get(0).getTitle());
+        assertEquals(FIRST_MOVIE, movieList.get(0).getTitle());
+    }
+
+    @Test
+    public void validate_return_interval_producers_winners() {
+        AwardsIntervalDto intervalDto = awardsService.getAwardsIntervalDto();
+        assertEquals(MOCK_PRDUCER, intervalDto.getMax().get(1).getProducer());
     }
 
 }

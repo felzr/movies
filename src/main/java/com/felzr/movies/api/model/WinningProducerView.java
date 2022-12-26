@@ -17,6 +17,15 @@ public class WinningProducerView implements Serializable {
     private String name;
     private Integer winner;
 
+    public WinningProducerView(String name, Integer winner) {
+        this.name = name;
+        this.winner = winner;
+    }
+
+    public WinningProducerView() {
+
+    }
+
     public String getName() {
         return name;
     }

@@ -34,7 +34,7 @@ public class ReadCsv {
 
     public Integer getCountLinesCsv() throws FileNotFoundException {
         File csvFile = ResourceUtils.getFile(CSV_PATH);
-        Integer header =1;
+        Integer header = 1;
         Integer lines = 0;
         try (LineNumberReader lnr = new LineNumberReader(new FileReader(csvFile))) {
             while (lnr.readLine() != null) ;
@@ -42,6 +42,6 @@ public class ReadCsv {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return lines-header;
+        return lines - header;
     }
 }
