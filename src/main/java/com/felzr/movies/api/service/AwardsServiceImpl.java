@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AwardsServiceImpl implements AwardsService {
@@ -35,11 +36,6 @@ public class AwardsServiceImpl implements AwardsService {
         return filterAwardsInterval(winningList);
     }
 
-    @Override
-    public List<AwardsDto> getAllAwardsDtos() {
-        return null;
-    }
-
     private AwardsIntervalDto filterAwardsInterval(List<WinningProducerView> winningList) {
         List<AwardsDto> awardList = checkIntervalWinner(winningList);
         return filterMaxAnMinAwards(awardList);
@@ -47,7 +43,10 @@ public class AwardsServiceImpl implements AwardsService {
 
     private AwardsIntervalDto filterMaxAnMinAwards(List<AwardsDto> awardList) {
         Comparator<AwardsDto> comparator = Comparator.comparing(AwardsDto::getInterval);
-        return getAwardsObject(awardList.stream().min(comparator).get(), awardList.stream().max(comparator).get());
+        List<AwardsDto> min = awardList.stream().sorted(comparator.thenComparingInt(object -> object.getInterval())).limit(2).collect(Collectors.toList());
+        List<AwardsDto> max = awardList.stream().sorted(comparator.thenComparingInt(object -> object.getInterval()).reversed()).limit(2).collect(Collectors.toList());
+
+        return new AwardsIntervalDto(min, max);
     }
 
     private List<AwardsDto> checkIntervalWinner(List<WinningProducerView> winningProducerViews) {
@@ -65,11 +64,4 @@ public class AwardsServiceImpl implements AwardsService {
         return awardList;
     }
 
-    private AwardsIntervalDto getAwardsObject(AwardsDto min, AwardsDto max) {
-        List<AwardsDto> minList = new ArrayList<>();
-        List<AwardsDto> maxList = new ArrayList<>();
-        minList.add(min);
-        maxList.add(max);
-        return new AwardsIntervalDto(minList, maxList);
-    }
 }
