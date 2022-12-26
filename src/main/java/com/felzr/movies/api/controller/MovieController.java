@@ -25,7 +25,7 @@ public class MovieController {
 
     @GetMapping(value = "/find-movie-by-id/{id}")
     public ResponseEntity<MovieDto> findMovieById(Integer id) {
-        MovieDto movieDto = movieService.getFMovieDtById(id);
+        MovieDto movieDto = movieService.getMovieDtById(id);
         return new ResponseEntity(movieDto, HttpStatus.OK);
     }
 

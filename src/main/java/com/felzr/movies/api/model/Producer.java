@@ -21,8 +21,9 @@ public class Producer {
         this.yearWinner = yearWinner;
     }
 
-    public Producer(String name) {
+    public Producer(String name, Integer yearWinner) {
         this.name = name;
+        this.yearWinner = yearWinner;
     }
 
     public Producer() {

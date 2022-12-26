@@ -12,7 +12,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.schema.property.BeanPropertyDefinitions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,6 +21,7 @@ import java.util.stream.Collectors;
 @Configuration
 public class DataConfig {
 
+    private static final String REGEX_SPLIT_NAMES = ",|\\ and ";
     @Autowired
     private MoviesRepository moviesRepository;
 
@@ -30,7 +30,7 @@ public class DataConfig {
 
 
     @Bean
-    InitializingBean sendDatabase() {
+    public InitializingBean sendDatabase() {
         return () -> {
             ReadCsv readCsv = new ReadCsv();
             List<MovieCsv> movieCsvList = readCsv.convertCsvToDto();
@@ -53,7 +53,7 @@ public class DataConfig {
     private List<Producer> convertProducer(Movie movie, List<String> producersNames, MovieCsv movieCsv) {
         List<Producer> producers = new ArrayList<>();
         producersNames.forEach(name -> {
-            Producer producer = new Producer(name.trim());
+            Producer producer = new Producer(name.trim(),null);
             if (movie.getWinner()) {
                 producer.setYearWinner(Integer.valueOf(movieCsv.getYear()));
             }
@@ -71,7 +71,7 @@ public class DataConfig {
     }
 
     private List<String> separateProducers(String producer) {
-        List<String> listProducer = Arrays.asList(producer.split((",|\\ and ")));
+        List<String> listProducer = Arrays.asList(producer.split((REGEX_SPLIT_NAMES)));
         listProducer = listProducer.stream()
                 .filter(s -> !s.isEmpty())
                 .collect(Collectors.toList());
