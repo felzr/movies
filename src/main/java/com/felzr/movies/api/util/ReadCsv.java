@@ -6,8 +6,7 @@ import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import org.springframework.util.ResourceUtils;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 public class ReadCsv {
@@ -31,5 +30,18 @@ public class ReadCsv {
         list = complexUsersIter.readAll();
 
         return list;
+    }
+
+    public Integer getCountLinesCsv() throws FileNotFoundException {
+        File csvFile = ResourceUtils.getFile(CSV_PATH);
+        Integer header =1;
+        Integer lines = 0;
+        try (LineNumberReader lnr = new LineNumberReader(new FileReader(csvFile))) {
+            while (lnr.readLine() != null) ;
+            lines = lnr.getLineNumber();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return lines-header;
     }
 }
